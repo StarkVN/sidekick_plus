@@ -2,7 +2,6 @@
 
 import 'dart:io';
 
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -56,15 +55,18 @@ void main() async {
   runApp(const ProviderScope(child: FvmApp()));
 
   const initialSize = Size(1024, 500);
-  windowManager.setMinimumSize(initialSize);
-  windowManager.setSize(initialSize);
-  if (!Platform.isMacOS) windowManager.setAsFrameless();
-
-  doWhenWindowReady(() {
-    appWindow.minSize = initialSize;
-    appWindow.size = initialSize;
-    appWindow.alignment = Alignment.center;
-    appWindow.show();
+  const windowOptions = WindowOptions(
+    size: initialSize,
+    minimumSize: initialSize,
+    center: true,
+    titleBarStyle: TitleBarStyle.hidden,
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    if (!Platform.isMacOS) {
+      await windowManager.setAsFrameless();
+    }
+    await windowManager.show();
+    await windowManager.focus();
   });
 }
 

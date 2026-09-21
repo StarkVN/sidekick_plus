@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const kFlutterBlue = Color(0xFF0175C2);
+const kFlutterBlue = Color(0xFF39CEFD);
 
 ThemeData get darkTheme {
   return _customThemeBuilder(
@@ -28,8 +28,9 @@ ThemeData _customThemeBuilder({
   } else {
     baseTheme = ThemeData.light();
   }
+  final textTheme = GoogleFonts.plusJakartaSansTextTheme(baseTheme.textTheme);
   return ThemeData(
-    textTheme: GoogleFonts.ibmPlexSansTextTheme(baseTheme.textTheme),
+    textTheme: textTheme,
     brightness: brightness,
     primarySwatch: Colors.blue,
     cardColor: cardColor,
@@ -57,8 +58,8 @@ ThemeData _customThemeBuilder({
     dialogTheme: DialogThemeData(
       shape: _roundedShape,
       backgroundColor: scaffoldBackgroundColor,
-      titleTextStyle: ThemeData.dark().textTheme.displayLarge,
-      contentTextStyle: ThemeData.dark().textTheme.bodyLarge,
+      titleTextStyle: textTheme.displayLarge,
+      contentTextStyle: textTheme.bodyLarge,
     ),
     appBarTheme: const AppBarTheme(
       elevation: 0,
@@ -73,7 +74,10 @@ ThemeData _customThemeBuilder({
 }
 
 ThemeData get lightTheme {
+  final textTheme =
+      GoogleFonts.plusJakartaSansTextTheme(ThemeData.light().textTheme);
   return ThemeData(
+    textTheme: textTheme,
     brightness: Brightness.light,
     primarySwatch: Colors.blue,
     colorScheme: ColorScheme.fromSeed(
@@ -89,8 +93,8 @@ ThemeData get lightTheme {
     ),
     dialogTheme: DialogThemeData(
       shape: _roundedShape,
-      titleTextStyle: ThemeData.light().textTheme.displaySmall,
-      contentTextStyle: ThemeData.light().textTheme.bodyLarge,
+      titleTextStyle: textTheme.displaySmall,
+      contentTextStyle: textTheme.bodyLarge,
     ),
     appBarTheme: const AppBarTheme(
       elevation: 0,

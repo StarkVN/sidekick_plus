@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -33,6 +35,8 @@ class SkShortcutManager extends ConsumerWidget {
       ref.read(navigationProvider.notifier).goTo(route);
     }
 
+    final isMac = Platform.isMacOS;
+
     return FocusableActionDetector(
       autofocus: true,
       shortcuts: <LogicalKeySet, Intent>{
@@ -52,6 +56,15 @@ class SkShortcutManager extends ConsumerWidget {
           LogicalKeyboardKey.metaLeft,
           LogicalKeyboardKey.digit4,
         ): const NavigationIntent(route: NavigationRoutes.newsScreen),
+        if (isMac)
+          LogicalKeySet(
+            LogicalKeyboardKey.metaLeft,
+            LogicalKeyboardKey.digit5,
+          ): const NavigationIntent(route: NavigationRoutes.cleanerScreen),
+        LogicalKeySet(
+          LogicalKeyboardKey.metaLeft,
+          LogicalKeyboardKey.comma,
+        ): const NavigationIntent(route: NavigationRoutes.settingsScreen),
         LogicalKeySet(
           LogicalKeyboardKey.metaLeft,
           LogicalKeyboardKey.keyF,

@@ -5,6 +5,7 @@
     "navButtonExplore": "Explore",
     "navButtonReleases": "Releases",
     "navButtonNews": "News",
+    "navButtonCleaner": "Memory Clean",
     "settings": "Settings",
     "navButtonPackages": "Packages",
     "stableChannelDescription": "We recommend that you use this channel for all production app releases. About once a quarter, a branch that has been stabilised to beta becomes our next stable branch and we create a stable version of that branch.",
@@ -201,5 +202,85 @@
     "markAllRead": "Mark all as read",
     "loadError": "Could not load the latest announcements. Please try again later.",
     "isEmpty": "No announcements yet."
+  },
+  "cleaner": {
+    "title": "Memory Clean",
+    "headerTitle": "Developer Memory & Cache Cleaner",
+    "headerDescription": "Automatically scan and reclaim disk space from temporary build caches created by Xcode, Simulator, Flutter, Gradle, and Docker without affecting your source code.",
+    "safeReclaimable": "Safe to Reclaim:",
+    "total": "Total: {{size}}",
+    "scan": "Rescan",
+    "scanning": "Scanning...",
+    "cleanAllSafe": "Clean All Safe",
+    "cleanAllSafeDialogTitle": "Clean all safe caches?",
+    "cleanAllSafeDialogContent": "This will safely clean caches including: Flutter Projects Build Cache, Xcode DerivedData, Xcode Caches, Simulator Unavailable, Flutter Pub Cache, and Android Gradle Cache.\n\nAll your projects and source code remain completely intact. Tools will automatically recompile or download dependencies as needed.",
+    "cleanAllSafeCompleted": "Completed! Reclaimed {{size}} of disk space.",
+    "availableTargets": "Available Categories",
+    "confirmTitle": "Confirm Clean: {{title}}",
+    "command": "Executed command:",
+    "confirmPrompt": "Are you sure you want to clean this item?",
+    "cancel": "Cancel",
+    "confirm": "Confirm Clean",
+    "startSafeClean": "Start Safe Clean",
+    "cleanThisItem": "Clean this item",
+    "safe100": "100% Safe",
+    "confirmNeeded": "Confirmation Needed",
+    "size": "Size: ",
+    "cleaned": "Cleaned",
+    "notScanned": "Not scanned",
+    "calculating": "Calculating...",
+    "unknownTarget": "Unknown target.",
+    "cleanSuccess": "Cleaned successfully! Reclaimed {{size}}.",
+    "cleanError": "Error cleaning: {{error}}",
+    "viewProjects": "View",
+    "projectsDialogTitle": "Flutter Projects with Build Cache",
+    "projectsCount": "{{count}} projects found",
+    "openInFinder": "Open in Finder",
+    "cleanProject": "Clean",
+    "cleaningProject": "Cleaning...",
+    "noProjectsWithCache": "No Flutter projects with build cache found.",
+    "close": "Close",
+    "targets": {
+      "flutterProjectsBuild": {
+        "title": "Flutter Projects Build Cache",
+        "subtitle": "Build artifacts in past or inactive Flutter projects",
+        "description": "Scans macOS Spotlight index to locate Flutter projects and cleans accumulated 'build/' directories using 'flutter clean'. Frees gigabytes from projects you tested or haven't worked on recently."
+      },
+      "xcodeDerivedData": {
+        "title": "Xcode DerivedData",
+        "subtitle": "Temporary build cache from Xcode",
+        "description": "Deletes intermediate build files created during iOS and macOS compilation. 100% safe to delete; Xcode will automatically rebuild when you open a project."
+      },
+      "xcodeCaches": {
+        "title": "Xcode Caches & Logs",
+        "subtitle": "Application cache and logs from Xcode",
+        "description": "Cleans internal caches and logs from Xcode. Reclaims disk space and resolves slow indexing or build freeze issues."
+      },
+      "simulatorUnavailable": {
+        "title": "iOS Simulator Unavailable & Caches",
+        "subtitle": "Device caches and uninstalled simulator runtimes",
+        "description": "Safely removes simulators belonging to deprecated or uninstalled iOS runtimes and cleans simulator runtime cache files."
+      },
+      "flutterPubCache": {
+        "title": "Flutter Pub Cache",
+        "subtitle": "Cached packages from pub get",
+        "description": "Cleans cached dependencies downloaded via pub get. Flutter will re-download required packages when you run pub get."
+      },
+      "androidGradleCache": {
+        "title": "Android Gradle Cache & Daemons",
+        "subtitle": "Gradle dependencies and build cache",
+        "description": "Deletes downloaded Gradle dependencies, plugins, and build artifacts. Gradle will automatically re-download them during your next Android build."
+      },
+      "androidNdk": {
+        "title": "Android NDK",
+        "subtitle": "Native Development Kit downloads for Android",
+        "description": "Each NDK version takes 3GB to 5GB of storage. If you do not compile native C/C++ code for Android, you can remove them to reclaim disk space."
+      },
+      "dockerSystemPrune": {
+        "title": "Docker System Prune",
+        "subtitle": "Stopped containers, dangling images, and build cache",
+        "description": "Cleans all stopped containers, unused networks, dangling images, and build cache from Docker."
+      }
+    }
   }
 }

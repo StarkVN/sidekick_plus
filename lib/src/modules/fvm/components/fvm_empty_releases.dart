@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:sidekick/src/modules/common/utils/helpers.dart';
 
 import '../../../components/atoms/empty_dataset.dart';
@@ -42,7 +43,7 @@ class EmptyVersions extends ConsumerWidget {
                     .read(navigationProvider.notifier)
                     .goTo(NavigationRoutes.exploreScreen);
               },
-              icon: const Icon(Icons.explore),
+              icon: const Icon(LucideIcons.compass300),
               label: Text(
                 context.i18n('modules:fvm.components.exploreFlutterReleases'),
               ),

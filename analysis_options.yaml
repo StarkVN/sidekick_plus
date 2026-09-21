@@ -7,6 +7,13 @@ analyzer:
     - "lib/generated/intl/*.dart"
     # Ignore vendored packages analyzed in their own context
     - "third_party/**"
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 # linter:
 #   rules:
 

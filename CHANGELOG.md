@@ -1,5 +1,25 @@
 # Changelog
 
+## Sidekick+ 1.3.0 - 2026-09-21
+
+### Added
+
+- **Memory Clean** tab (macOS):
+  - Fast Spotlight index search (`mdfind`) to discover Flutter projects across the system with active build caches.
+  - Interactive project inspector ("View") to browse detected projects, inspect cache sizes, open directories in Finder, and run `flutter clean` individually or in batch.
+  - Safe developer cache cleanup options for iOS Simulators (`xcrun simctl`), Android Gradle caches, Flutter Pub cache, Xcode Caches, Docker system prune, and Android NDK/emulator caches.
+  - Keyboard shortcut (`Cmd+5`) to quickly navigate to the Memory Clean tab.
+  - Complete localization support in `localizations/en-US/modules.json`.
+- **Makefile**: Added convenience targets for building (`make build`), launching (`make open`), running, and cleaning on macOS.
+
+### Changed
+
+- Migrated window management from `bitsdojo_window` to `window_manager`.
+- Fully migrated macOS build configuration to Swift Package Manager (SPM), removing CocoaPods (`Podfile` / `Podfile.lock`).
+- Updated primary brand accent color to `#39CEFD` (`kFlutterBlue`).
+- Upgraded global application typography to **Plus Jakarta Sans** across both light and dark themes.
+- Improved Settings shortcut handling (`Cmd+,` on macOS).
+
 ## Sidekick+ 1.2.0 - 2026-08-17
 
 Sidekick+ — community fork of [fluttertools/sidekick](https://github.com/fluttertools/sidekick).

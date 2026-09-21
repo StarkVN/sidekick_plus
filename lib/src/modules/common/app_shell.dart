@@ -22,6 +22,7 @@ import '../../components/molecules/top_app_bar.dart';
 import '../../components/organisms/shortcut_manager.dart';
 import '../../modules/common/utils/layout_size.dart';
 import '../../theme.dart';
+import '../cleaner/cleaner.screen.dart';
 import '../fvm/fvm.screen.dart';
 import '../navigation/navigation.provider.dart';
 import '../news/news.provider.dart';
@@ -33,7 +34,21 @@ import 'constants.dart';
 
 final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-const pages = [FVMScreen(), ProjectsScreen(), ReleasesScreen(), NewsScreen()];
+NavigationRoutes _getRouteFromIndex(int index, bool isMac) {
+  if (isMac) {
+    return NavigationRoutes.values[index];
+  }
+  if (index == 4) return NavigationRoutes.settingsScreen;
+  return NavigationRoutes.values[index];
+}
+
+int _getIndexFromRoute(NavigationRoutes route, bool isMac) {
+  if (isMac) {
+    return route.index;
+  }
+  if (route == NavigationRoutes.settingsScreen) return 4;
+  return route.index;
+}
 
 /// Main widget of the app
 class AppShell extends HookConsumerWidget {
@@ -68,15 +83,25 @@ class AppShell extends HookConsumerWidget {
 
     // Index of item selected
     final selectedIndex = useState(0);
+    final isMac = Platform.isMacOS;
+
+    final pages = [
+      const FVMScreen(),
+      const ProjectsScreen(),
+      const ReleasesScreen(),
+      const NewsScreen(),
+      if (isMac) const CleanerScreen(),
+      const SettingsScreen(),
+    ];
 
     // Side effect when route changes
     useEffect(() {
       // Do not set index if its search
       if (currentRoute != NavigationRoutes.searchScreen) {
-        selectedIndex.value = currentRoute.index;
+        selectedIndex.value = _getIndexFromRoute(currentRoute, isMac);
       }
       return;
-    }, [currentRoute]);
+    }, [currentRoute, isMac]);
 
     // Side effect when info is selected
     useEffect(() {
@@ -124,16 +149,7 @@ class AppShell extends HookConsumerWidget {
               extended: !LayoutSize.isSmall,
               trailingAtBottom: true,
               onDestinationSelected: (index) {
-                if (index == NavigationRoutes.settingsScreen.index) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SettingsScreen(),
-                    ),
-                  );
-                  return;
-                }
-                navigation.goTo(NavigationRoutes.values[index]);
+                navigation.goTo(_getRouteFromIndex(index, isMac));
               },
               trailing: Padding(
                 padding: const EdgeInsets.only(bottom: 8),
@@ -143,39 +159,45 @@ class AppShell extends HookConsumerWidget {
                 renderNavButton(
                   context,
                   context.i18n('modules:common.navButtonDashboard'),
-                  Icons.flutter_dash,
+                  LucideIcons.layoutDashboard300,
                 ),
                 renderNavButton(
                   context,
                   context.i18n('modules:common.navButtonProjects'),
-                  LucideIcons.folders,
+                  LucideIcons.folders300,
                 ),
                 renderNavButton(
                   context,
                   context.i18n('modules:common.navButtonReleases'),
-                  LucideIcons.rocket,
+                  LucideIcons.rocket300,
                 ),
                 NavigationRailDestination(
                   icon: Badge.count(
                     count: newsState.unreadCount,
                     isLabelVisible: newsState.unreadCount > 0,
-                    child: const Icon(LucideIcons.newspaper, size: 20),
+                    child: const Icon(LucideIcons.newspaper300, size: 20),
                   ),
                   selectedIcon: Badge.count(
                     count: newsState.unreadCount,
                     isLabelVisible: newsState.unreadCount > 0,
                     child: Icon(
-                      LucideIcons.newspaper,
+                      LucideIcons.newspaper300,
                       size: 20,
                       color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
                   label: Text(context.i18n('modules:common.navButtonNews')),
                 ),
+                if (isMac)
+                  renderNavButton(
+                    context,
+                    context.i18n('modules:cleaner.title'),
+                    LucideIcons.hardDrive300,
+                  ),
                 renderNavButton(
                   context,
                   context.i18n('modules:common.settings'),
-                  LucideIcons.settings,
+                  LucideIcons.settings300,
                 ),
               ],
             ),

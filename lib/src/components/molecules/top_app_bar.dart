@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:bitsdojo_window/bitsdojo_window.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:sidekick/src/components/atoms/typography.dart';
 import 'package:sidekick/src/modules/common/constants.dart';
 import 'package:sidekick/src/modules/navigation/navigation.provider.dart';
@@ -44,7 +45,7 @@ class SkAppBar extends ConsumerWidget implements PreferredSizeWidget {
         const SkUpdateButton(),
         const SizedBox(width: 10),
         IconButton(
-          icon: const Icon(Icons.search),
+          icon: const Icon(LucideIcons.search300),
           iconSize: 20,
           splashRadius: 15,
           onPressed: openSearchModal,
@@ -61,7 +62,7 @@ class SkAppBar extends ConsumerWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       // shadowColor: Colors.transparent,
       // backgroundColor: Colors.transparent,
-      flexibleSpace: MoveWindow(),
+      flexibleSpace: const DragToMoveArea(child: SizedBox.expand()),
     );
   }
 }

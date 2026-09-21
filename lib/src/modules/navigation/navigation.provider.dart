@@ -5,6 +5,7 @@ enum NavigationRoutes {
   projectsScreen,
   exploreScreen,
   newsScreen,
+  cleanerScreen,
   settingsScreen,
   searchScreen,
 }

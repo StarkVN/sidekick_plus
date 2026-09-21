@@ -3,7 +3,6 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  bitsdojo_window_windows
   file_selector_windows
   flutter_acrylic
   screen_retriever

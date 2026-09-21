@@ -1,4 +1,3 @@
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -29,10 +28,10 @@ enum NavSection {
 }
 
 final _sectionIcons = [
-  LucideIcons.slidersHorizontal,
-  LucideIcons.layers,
-  LucideIcons.terminal,
-  LucideIcons.info,
+  LucideIcons.slidersHorizontal300,
+  LucideIcons.layers300,
+  LucideIcons.terminal300,
+  LucideIcons.info300,
 ];
 
 /// Settings screen
@@ -50,9 +49,17 @@ class SettingsScreen extends HookConsumerWidget {
     final provider = ref.watch(settingsProvider.notifier);
     final settings = ref.watch(settingsProvider);
 
-    final currentSection = useState(section.index);
+    final tabController = useTabController(
+      initialLength: 4,
+      initialIndex: section.index,
+    );
 
-    final controller = usePageController(initialPage: section.index);
+    useEffect(() {
+      if (tabController.index != section.index) {
+        tabController.animateTo(section.index);
+      }
+      return;
+    }, [section]);
 
     final sections = [
       context.i18n('modules:settings.scenes.general'),
@@ -60,11 +67,6 @@ class SettingsScreen extends HookConsumerWidget {
       'Flutter',
       context.i18n('modules:settings.scenes.about'),
     ];
-
-    void changeSection(int idx) {
-      currentSection.value = idx;
-      controller.jumpToPage(idx);
-    }
 
     Future<void> handleSave() async {
       final savedMessage =
@@ -80,64 +82,80 @@ class SettingsScreen extends HookConsumerWidget {
       }
     }
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      extendBody: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        actions: const [
-          CloseButton(),
-          SizedBox(width: 10),
-        ],
-        flexibleSpace: MoveWindow(),
-      ),
-      body: Row(
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(width: 50),
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: ListView(
-                children: sections.mapIndexed(
-                  (section, idx) {
-                    return ListTile(
-                      leading: Icon(
-                        _sectionIcons[idx],
-                        size: 20,
+          Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Theme.of(context).dividerColor,
+                  width: 1,
+                ),
+              ),
+            ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                constraints: const BoxConstraints(maxWidth: 850),
+                child: TabBar(
+                  controller: tabController,
+                  isScrollable: true,
+                  tabAlignment: TabAlignment.start,
+                  dividerColor: Colors.transparent,
+                  indicatorColor: Theme.of(context).colorScheme.secondary,
+                  labelColor: Theme.of(context).colorScheme.secondary,
+                  unselectedLabelColor: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.color
+                      ?.withValues(alpha: 0.7),
+                  indicatorWeight: 2.5,
+                  labelStyle: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                  unselectedLabelStyle: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                  ),
+                  tabs: sections.mapIndexed(
+                    (sectionName, idx) => Tab(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(_sectionIcons[idx], size: 16),
+                          const SizedBox(width: 8),
+                          Text(sectionName),
+                        ],
                       ),
-                      title: Text(
-                        section,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      selectedTileColor: Theme.of(context).hoverColor,
-                      selected: currentSection.value == idx,
-                      onTap: () => changeSection(idx),
-                    );
-                  },
-                ).toList(),
+                    ),
+                  ).toList(),
+                ),
               ),
             ),
           ),
-          const SizedBox(width: 60),
           Expanded(
-            flex: 3,
-            child: PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              controller: controller,
-              children: [
-                SettingsSectionGeneral(settings, handleSave),
-                FvmSettingsScene(settings, handleSave),
-                SettingsSectionFlutter(settings, handleSave),
-                const AboutSettingsScene(),
-              ],
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 850),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TabBarView(
+                  controller: tabController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    SettingsSectionGeneral(settings, handleSave),
+                    FvmSettingsScene(settings, handleSave),
+                    SettingsSectionFlutter(settings, handleSave),
+                    const AboutSettingsScene(),
+                  ],
+                ),
+              ),
             ),
           ),
-          const SizedBox(width: 50),
         ],
-      ),
-    );
+      );
   }
 }
